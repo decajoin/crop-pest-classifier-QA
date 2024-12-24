@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}首页{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1 style="text-align:center;">农作物介绍</h1>
+   <div class="crop-container">
+
+    {% for crop in crops %}
+    <div class="crop-card">
+        <a href="{% url 'crops_info' crop.name %}">
+            <img src="{% static crop.image_path %}" alt="{{ crop.name }}" class="crop-image">
+            <div class="crop-info">
+                <h2>{{ crop.name }}</h2>
+                <p>{{ crop.description }}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+    </div>
+
+
+{% endblock %}

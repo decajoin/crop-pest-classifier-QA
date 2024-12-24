@@ -1,0 +1,25 @@
+headers:
+  Accept: application/json
+  Authorization: Bearer 8f5d50c1da898832f5887ec46c269fa5b0519e772e402762bfc7842034f8872a96a76f0b055ab65a0d537ff65a60236c67713558
+  Content-Type: application/json
+ziliz:
+  limit: 8
+urls:
+  data_search: https://in03-c23c3d0b8a53c7e.serverless.gcp-us-west1.cloud.zilliz.com/v2/vectordb/entities/search
+  
+kimi:
+  api_key: sk-1CWu646cO2MhN1WZKaPYBBX70wA0ps5AbJSZ4hy806RUDsW9
+  base_url: https://api.moonshot.cn/v1
+  model_name: moonshot-v1-8k
+  temperature: 0.01
+
+qwen:
+  api_key: sk-39315b9032074bc0a7ec85e259ffdf06
+  model_name: qwen-turbo
+  temperature: 0.01
+
+zhipu:
+  api_key: d1c930d3471321cebd6ab1623a416772.fpjb8NCibGeIYE35
+  model_name: glm-4-plus
+  temperature: 0.01
+

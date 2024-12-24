@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}图像分类{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 style="text-align:center;">农作物病虫害分类</h1>
+
+        <!-- 分类表单 -->
+        <form id="classification-form" class="upload-form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- 选择农作物类型 -->
+            <div class="form-group">
+                <label for="crop_type">选择农作物类型</label>
+                <select name="crop_type" id="crop_type" class="form-control">
+                    <option value="maize">玉米</option>
+                    <option value="tomato">番茄</option>
+                    <option value="cassava">木薯</option>
+                    <option value="cashew">腰果</option>
+                </select>
+            </div>
+
+            <!-- 上传图片 -->
+            <div class="form-group">
+                <label for="image">上传图片</label>
+                <input type="file" name="image" accept="image/*" id="image" class="form-control-file"
+                       onchange="previewImage(event)">
+            </div>
+
+            <!-- 图片回显 -->
+            <div class="image-preview">
+                <img id="image_preview" src="#" alt="Image Preview" style="display:none;"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">上传并分类</button>
+        </form>
+
+        <!-- 分类结果显示 -->
+        <div id="result-container" class="result-container" style="display:none;">
+            <h3>分类结果:</h3>
+            <div id="result-content">
+                <p><strong>类别:</strong> <span id="result-class"></span></p>
+                <p><strong>置信度:</strong> <span id="result-score"></span></p>
+            </div>
+        </div>
+
+        <!-- 加载动画 (转圈圈) -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        // 预览上传的图片
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('image_preview');
+                output.src = reader.result;
+                output.style.display = "block";  // 显示图片
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // 处理表单提交
+        document.getElementById('classification-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // 防止表单提交刷新页面
+
+            // 显示加载动画
+            document.getElementById('loading-overlay').style.display = 'flex';
+
+            // 创建一个 FormData 对象
+            var formData = new FormData(this);
+
+            // 使用 fetch 发送异步请求
+            fetch("{% url 'classify' %}", {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())  // 解析 JSON 响应
+                .then(data => {
+                    // 隐藏加载动画
+                    document.getElementById('loading-overlay').style.display = 'none';
+
+                    // 处理返回的分类结果
+                    if (data.class && data.score) {
+                        document.getElementById('result-class').textContent = `${data.class}`;
+                        document.getElementById('result-score').textContent = `${data.score}`;
+                        document.getElementById('result-container').style.display = "block";  // 显示结果
+
+                        // 如果有警告信息，弹出警告框
+                        if (data.warnning) {
+                            alert(data.warnning);
+                        }
+                    } else {
+                        alert("分类失败，请检查上传的图片或农作物类型！");
+                    }
+                })
+                .catch(error => {
+                    // 隐藏加载动画
+                    document.getElementById('loading-overlay').style.display = 'none';
+
+                    console.error('Error:', error);
+                    alert("发生错误，请稍后重试！");
+                });
+        });
+    </script>
+
+{% endblock %}

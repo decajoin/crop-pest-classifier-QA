@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}RAG 智能问答{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 style="text-align:center;">RAG 智能问答</h1>
+
+        <!-- 对话框区域 -->
+        <div id="chat-container" class="chat-container">
+            <!-- 初始空内容 -->
+        </div>
+
+        <!-- 提问表单 -->
+        <div class="input-container">
+            <form method="get" action="{% url 'RAG' %}" class="input-form" id="question-form">
+                <input type="text" id="question" name="question" placeholder="输入问题..." required class="input-box">
+
+                <!-- 添加LLM选择框 -->
+                <div>
+                    <select id="llm-select" name="llm">
+                        <option value="zhipu_llm" selected>智谱清言</option>
+                        <option value="qwen_llm">通义千问</option>
+                        <option value="kimi_llm">Kimi</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">提交</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 引入 marked.js 进行 Markdown 转换 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        document.getElementById('question-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const questionInput = document.getElementById('question');
+            const question = questionInput.value;
+            const llmSelect = document.getElementById('llm-select');
+            const selectedLLM = llmSelect.value;  // 获取选中的LLM
+            const chatContainer = document.getElementById('chat-container');
+
+            // 显示用户提问
+            chatContainer.innerHTML += `<div class="chat-item user-message"><strong>用户：</strong> ${question}</div>`;
+
+            // 清空输入框
+            questionInput.value = '';
+
+            // 显示聊天框
+            chatContainer.classList.add('visible'); // 让聊天框显示
+
+            // 发送流式请求，传递选中的LLM
+            const response = await fetch(`/RAG/?question=${encodeURIComponent(question)}&llm=${encodeURIComponent(selectedLLM)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let done = false;
+            let chunk = '';  // 存储当前的chunk内容
+
+            // 在聊天框中插入初始 "智能助手" 的对话框
+            let botMessageElement = document.createElement('div');
+            botMessageElement.classList.add('chat-item', 'bot-message');
+            botMessageElement.innerHTML = '<strong>智能助手：</strong> ';
+            chatContainer.appendChild(botMessageElement);
+
+            // 逐个读取流中的chunk并更新显示
+            while (!done) {
+                const {value, done: readerDone} = await reader.read();
+                done = readerDone;
+                chunk += decoder.decode(value, {stream: true});
+
+                // 使用 marked.js 将 Markdown 转换为 HTML
+                const htmlContent = marked.parse(chunk);
+
+                // 每次接收到一个chunk后，更新聊天框
+                botMessageElement.innerHTML = '<strong>智能助手：</strong> ' + htmlContent;
+
+                // 自动滚动到底部
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        });
+    </script>
+{% endblock %}

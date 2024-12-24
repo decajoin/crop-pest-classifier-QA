@@ -1,0 +1,39 @@
+{
+  "rows": [
+    {
+      "embedding": [],
+      "title": "生物农药防治蝗虫的背景",
+      "content": "在过去一年多，东非经历了一场大规模的沙漠蝗灾，蝗灾从农户手中夺走了粮食和收入，并威胁到该地区千百万人的粮食安全。以往，化学农药是唯一有效的控制方法，但生物农药成为了替代方案，能够在危机爆发前进行控制。",
+      "tags": "生物农药, 蝗虫, 防治",
+      "source": "https://www.fao.org/newsroom/story/Biopesticides-for-locust-control/zh"
+    },
+    {
+      "embedding": [],
+      "title": "生物农药的作用与应用",
+      "content": "生物农药通过自然的方式使用微生物（如真菌、细菌、病毒）对抗蝗虫。绿僵菌科（Metarhizium acridum）已证明对蝗虫控制有效。该真菌被用作粉剂，通过飞机或卡车喷洒到田地上，能在一两周内杀死蝗虫若虫和成虫。",
+      "tags": "生物农药, 绿僵菌, 真菌, 蝗虫控制",
+      "source": "https://www.fao.org/newsroom/story/Biopesticides-for-locust-control/zh"
+    },
+    {
+      "embedding": [],
+      "title": "生物农药的优点",
+      "content": "生物农药专门针对特定种类的昆虫，不会影响有益昆虫，如授粉昆虫，因此不会对生态系统产生负面影响。此外，生物农药对其他野生动物和植物没有伤害，可以在自然保护区、湿地等环境中使用。",
+      "tags": "生物农药, 优点, 生态影响",
+      "source": "https://www.fao.org/newsroom/story/Biopesticides-for-locust-control/zh"
+    },
+    {
+      "embedding": [],
+      "title": "推广生物农药的障碍",
+      "content": "尽管生物农药有很多优势，但其应用速度较慢，因此在极端情况下无法替代化学农药。此外，农民习惯于使用化学农药，生物农药的使用复杂且需要更多的培训，习惯和便利性成为推广的障碍。",
+      "tags": "生物农药, 推广障碍, 习惯",
+      "source": "https://www.fao.org/newsroom/story/Biopesticides-for-locust-control/zh"
+    },
+    {
+      "embedding": [],
+      "title": "生物农药与气候变化",
+      "content": "随着气候变化带来更多台风和暴雨，为蝗虫提供理想的繁殖环境，预防性措施变得越来越重要。生物农药将在监控危险天气事件及早采取预防措施中发挥重要作用，帮助避免类似当前东非蝗灾的大规模危机。",
+      "tags": "生物农药, 气候变化, 预防措施",
+      "source": "https://www.fao.org/newsroom/story/Biopesticides-for-locust-control/zh"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}农作物详情{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="crop-details">
+        <h1>{{ crop.name }}</h1>
+        <p>{{ crop.description }}</p>
+        <img src="{% static crop.image_path %}" alt="{{ crop.name }}" class="crop-image">
+
+        <h2>相关病虫害</h2>
+        <div class="pest-diseases">
+            {% for pest_disease in crop.pest_diseases.all %}
+                <div class="pest-card">
+                    <h3>{{ pest_disease.type }}</h3>
+                    <p>{{ pest_disease.description }}</p>
+                    <img src="{% static pest_disease.image_path %}" alt="{{ pest_disease.type }}" class="pest-image">
+                </div>
+            {% empty %}
+                <p>没有相关病虫害信息。</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

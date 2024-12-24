@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}默认标题{% endblock %}</title>
+    <style>
+        /* 导航栏样式 */
+        nav {
+            background-color: #007bff; /* 使用蓝色背景 */
+            padding: 5px 20px; /* 增加内边距 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+            position: fixed; /* 固定位置 */
+            top: 0; /* 固定在页面顶部 */
+            left: 0; /* 固定在页面左边 */
+            width: 100%; /* 使导航栏占据整个页面宽度 */
+            z-index: 100; /* 确保导航栏位于页面上方 */
+            box-sizing: border-box; /* 确保边距不影响宽度 */
+        }
+
+        /* 容器使用 Flexbox 布局 */
+        .nav-container {
+            display: flex;
+            justify-content: flex-start;
+        {#justify-content: space-around; /* 均匀分布导航项 */#} align-items: center; /* 垂直居中对齐 */
+        }
+
+        /* 每个导航项样式 */
+        nav .nav-item {
+            margin-right: 10px;
+            text-decoration: none;
+            color: white; /* 白色文字 */
+            font-size: 18px;
+            font-weight: 500;
+            padding: 8px 16px; /* 为链接增加内边距 */
+            border-radius: 5px; /* 添加圆角 */
+            transition: background-color 0.3s, color 0.3s; /* 渐变效果 */
+        }
+
+        /* 当鼠标悬停时 */
+        nav .nav-item:hover {
+            background-color: #0056b3; /* 改变背景色 */
+            color: #ffffff; /* 保持文字颜色 */
+            text-decoration: none; /* 去掉下划线 */
+        }
+
+        /* 活跃页面状态 */
+        nav .nav-item.active {
+            background-color: #004085;
+            color: #fff;
+        }
+
+        /* 为导航栏提供响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column; /* 小屏幕时垂直排列 */
+                align-items: flex-start; /* 左对齐 */
+            }
+
+            nav .nav-item {
+                margin-bottom: 10px; /* 项目之间的间距 */
+                font-size: 18px;
+            }
+        }
+
+
+        /* 全局样式 */
+        body {
+            font-family: Arial, sans-serif;
+            /* 避免固定的导航栏遮挡网页内容 */
+            margin-top: 100px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* 容器样式 */
+        .crop-container {
+            display: flex;
+            margin: -20px auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* 单个农作物卡片 */
+        .crop-card {
+            width: 300px;
+            height: 450px;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* 鼠标悬停效果 */
+        .crop-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 图片样式 */
+        .crop-image {
+            width: 100%;
+            height: 60%;
+            max-width: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* 农作物信息 */
+        .crop-info {
+            padding: 15px;
+            background-color: #f9f9f9;
+            height: 40%;
+        }
+
+        .crop-info h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .crop-info p {
+            font-size: 1em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* 首页标题样式 */
+        h1 {
+            margin: 40px 0;
+            color: #333;
+        }
+
+        /* 页面布局和基本样式 */
+        .container {
+            width: 100%;
+            margin: -20px auto;
+        }
+
+        /* 农作物详情部分 */
+        .crop-details {
+            text-align: center;
+        }
+
+        /* 病虫害卡片样式 */
+        .pest-diseases {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 自动适应列数 */
+            gap: 20px;
+            margin: 40px;
+        }
+
+        .pest-card {
+            background-color: #f4f4f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .pest-card h3 {
+            color: #333;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .pest-card p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .pest-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            max-width: 170px;
+            max-height: 170px;
+            margin-top: 15px;
+        }
+
+        /* 表单元素 */
+        .upload-form {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 表单组样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* 上传文件样式 */
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-control, .form-control-file {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* 图片回显区域 */
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #image_preview {
+            max-width: 100%;
+            max-height: 250px;
+            display: none;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        /* 按钮样式 */
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 结果显示容器 */
+        .result-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px auto;
+            max-width: 600px;
+        }
+
+        /* 结果内容 */
+        #result-content p {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        #result-class, #result-score {
+            font-size: 20px;
+            font-weight: 700;
+            color: #007bff;
+        }
+
+        /* 加载动画的样式 */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* 确保覆盖所有内容 */
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 聊天容器初始样式 */
+        .chat-container {
+            background-color: #f4f4f4; /* 设置初始为与body一致的颜色 */
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 720px;
+            margin: 20px auto;
+            box-shadow: none; /* 初始没有阴影 */
+            overflow-y: auto;
+            max-height: 500px;
+            width: 100%;
+            display: none; /* 初始隐藏 */
+        }
+
+        /* 显示聊天框 */
+        .chat-container.visible {
+            background-color: #f9f9f9; /* 提问后恢复背景色 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 恢复阴影 */
+            display: block; /* 显示聊天框 */
+        }
+
+
+        /* 每条消息样式 */
+        .chat-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* 用户消息 */
+        .user-message {
+            background-color: #e1f7d5;
+            color: #333;
+            text-align: left;
+        }
+
+        /* 助手消息 */
+        .bot-message {
+            background-color: #d1e7f7;
+            color: #333;
+            text-align: left;
+        }
+
+        /* 输入框和提交按钮容器 */
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            width: 100%; /* 确保容器宽度一致 */
+        }
+
+        /* 输入框和提交按钮的表单容器 */
+        .input-form {
+            display: flex;
+            justify-content: space-between; /* 让输入框和按钮分布在两边 */
+            width: 100%;
+            max-width: 760px; /* 最大宽度与聊天容器一致 */
+        }
+
+        /* 输入框样式 */
+        .input-box {
+            flex-grow: 1; /* 输入框占据剩余的空间 */
+            padding-inline: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-right: 10px;
+            max-height: 40px;
+        }
+
+        /* 提交按钮样式 */
+        .submit-btn {
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px; /* 按钮和输入框之间的间隔 */
+            width: 80px; /* 设置按钮宽度，确保按钮不会过大 */
+            height: 40px; /* 固定高度，确保与输入框一致 */
+        }
+
+        /* 提交按钮悬停效果 */
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+
+        /* 自定义 select 样式 */
+        #llm-select {
+            width: 120px;
+            height: 40px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* 鼠标悬停时，改变 select 的边框颜色 */
+        #llm-select:hover {
+            border-color: #007bff;
+        }
+
+        /* 自定义 option 样式 */
+        #llm-select option {
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* 当选项被选中时，背景颜色变化 */
+        #llm-select option:checked {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<!-- 导航栏 -->
+<nav>
+    <div class="nav-container">
+        <a href="{% url 'index' %}" class="nav-item">首页</a>
+        <a href="{% url 'classify' %}" class="nav-item">病虫害分类</a>
+        <a href="{% url 'RAG' %}" class="nav-item">RAG 智能问答</a>
+    </div>
+</nav>
+
+
+<!-- 主内容 -->
+<div>
+    {% block content %}
+        <!-- 子模板的内容将插入到这里 -->
+    {% endblock %}
+</div>
+</body>
+
+
+</html>
