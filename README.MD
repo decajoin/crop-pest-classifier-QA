@@ -97,6 +97,8 @@ python manage.py migrate
 
 ### 3.3. 导入分类模型
 
+[下载模型文件](https://pan.baidu.com/s/1RFvgMkoV9UMjri_EXraSxw?pwd=hym9)
+
 解压 `/Models.zip`，将其中所有文件夹导入到 `/main/classifier/mmpretrain/efficientnetv2`目录下
 
 ### 3.4. 运行 Django 项目
@@ -146,3 +148,14 @@ python manage.py runserver
 `/VectorDataset` 文件夹存放 `RAG` 的向量知识库数据和相关处理代码
 
 `/Models.zip` 此压缩文件存放的是图片分类训练的具体模型
+
+## 6. 平台运行图示
+
+![image-20241224203955285](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20241224203955285.png)
+
+![image-20241224204006772](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20241224204006772.png)
+
+![image-20241224204032964](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20241224204032964.png)
+
+![image-20241224204104420](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20241224204104420.png)
+
