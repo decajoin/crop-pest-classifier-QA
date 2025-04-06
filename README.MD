@@ -143,11 +143,11 @@ python manage.py runserver
 
 `/main` 文件夹存放 Django 的主要代码
 
-`/ModelTraining` 文件夹存放图片分类模型训练相关代码
+`/ModelTraining` 文件夹存放图片分类模型训练相关代码和部分测试数据以供功能测试
 
 `/VectorDataset` 文件夹存放 `RAG` 的向量知识库数据和相关处理代码
 
-`/Models.zip` 此压缩文件存放的是图片分类训练的具体模型
+`/Models.zip` 此压缩文件存放的是图片分类训练的具体模型，模型文件太大无法上传，需要手动下载
 
 ## 6. 平台运行图示
 
@@ -157,5 +157,9 @@ python manage.py runserver
 
 ![image-20241224204032964](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20241224204032964.png)
 
+![image-20250406110249170](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20250406110249170.png)
+
 ![image-20241224204104420](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20241224204104420.png)
+
+![image-20250406110135751](https://yeyi0003.oss-cn-hangzhou.aliyuncs.com/image-20250406110135751.png)
 
